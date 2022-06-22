@@ -4,10 +4,30 @@
       <lightning-layout-item size="12">
         <div class="page-section page-header slds-theme_default slds-box display-flex settings-header">
           <div class="display-flex">
-            <lightning-icon class="icon-color" icon-name="standard:folder" size="large" alternative-text="Folder" title="Folder"></lightning-icon>
+            <lightning-icon class="icon-color" icon-name="custom:custom13" size="large" alternative-text="Folder" title="Folder"></lightning-icon>
           </div>
           <h2 class="slds-p-left_large slds-p-top_x-small slds-text-heading_large bold display-flex">ZuDocs</h2>
         </div>
+      </lightning-layout-item>
+      <lightning-layout-item size="12">
+        <lightning-layout>
+          <lightning-layout-item size="2" class="slds-p-top_small">
+            <div class="slds-theme_default slds-box slds-p-around_none">
+              <lightning-vertical-navigation>
+                <lightning-vertical-navigation-section label="Change This">
+                  <lightning-vertical-navigation-item label="Change This" name="status" class="slds-is-active"></lightning-vertical-navigation-item>
+                  <lightning-vertical-navigation-item label="Changes This" name="details"></lightning-vertical-navigation-item>
+                  <lightning-vertical-navigation-item label="Change This" name="display name"></lightning-vertical-navigation-item>
+                </lightning-vertical-navigation-section>
+              </lightning-vertical-navigation>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item class="slds-p-left_small slds-p-top_small" size="10">
+            <div class="slds-theme_default slds-box">
+              <!-- ad folder tree here -->
+            </div>
+          </lightning-layout-item>
+        </lightning-layout>
       </lightning-layout-item>
     </lightning-layout>
   </div>
