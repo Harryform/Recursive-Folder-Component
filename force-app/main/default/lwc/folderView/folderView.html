@@ -14,17 +14,23 @@
           <lightning-layout-item size="2" class="slds-p-top_small">
             <div class="slds-theme_default slds-box slds-p-around_none">
               <lightning-vertical-navigation>
-                <lightning-vertical-navigation-section label="Change This">
-                  <lightning-vertical-navigation-item label="Change This" name="status" class="slds-is-active"></lightning-vertical-navigation-item>
-                  <lightning-vertical-navigation-item label="Changes This" name="details"></lightning-vertical-navigation-item>
-                  <lightning-vertical-navigation-item label="Change This" name="display name"></lightning-vertical-navigation-item>
+                <lightning-vertical-navigation-section label="Menu">
+                  <lightning-vertical-navigation-item label="Folder View" name="folders" class="slds-is-active"></lightning-vertical-navigation-item>
+                  <lightning-vertical-navigation-item label="Create Folders and Upload Files" name="create"></lightning-vertical-navigation-item>
+                  <lightning-vertical-navigation-item label="Link iManage" name="imanage"></lightning-vertical-navigation-item>
                 </lightning-vertical-navigation-section>
               </lightning-vertical-navigation>
             </div>
           </lightning-layout-item>
           <lightning-layout-item class="slds-p-left_small slds-p-top_small" size="10">
-            <div class="slds-theme_default slds-box">
-              <!-- ad folder tree here -->
+            <div if:true={displayFolderMenu} class="slds-theme_default slds-box">
+              <c-folder-view-menu></c-folder-view-menu>
+            </div>
+            <div if:true={displayCreateMenu} class="slds-theme_default slds-box">
+              <c-folder-create-menu></c-folder-create-menu>
+            </div>
+            <div if:true={displayImanageMenu} class="slds-theme_default slds-box">
+              <c-imanage-link-menu></c-imanage-link-menu>
             </div>
           </lightning-layout-item>
         </lightning-layout>
