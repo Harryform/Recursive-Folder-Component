@@ -2,15 +2,15 @@
   <h2 class="big-text">Create A New Folder</h2>
   <div class="slds-p-top_medium">
     <div class="slds-p-bottom_medium">
-      <lightning-button variant="brand-outline" label="Create New Folder" title="Primary action with lighter look" onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
+      <lightning-button class="medium-text" variant="brand-outline" label="Create New Folder" title="Primary action with lighter look" onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
     </div>
     <lightning-file-upload
-        label="Upload Documents"
-        name="fileUploader"
-        accept={acceptedFormats}
-        record-id={myRecordId}
-        onuploadfinished={handleUploadFinished}
-        multiple
+      label="Upload Documents"
+      name="fileUploader"
+      accept={acceptedFormats}
+      record-id={myRecordId}
+      onuploadfinished={handleUploadFinished}
+      multiple
     >
     </lightning-file-upload>
   </div>
