@@ -13,7 +13,7 @@
         <lightning-layout>
           <lightning-layout-item size="2" class="slds-p-top_small">
             <div class="slds-theme_default slds-box slds-p-around_none">
-              <lightning-vertical-navigation>
+              <lightning-vertical-navigation onselect={handleMenuSelect}>
                 <lightning-vertical-navigation-section label="Menu">
                   <lightning-vertical-navigation-item label="Folder View" name="folders" class="slds-is-active"></lightning-vertical-navigation-item>
                   <lightning-vertical-navigation-item label="Create Folders and Upload Files" name="create"></lightning-vertical-navigation-item>
