@@ -4,23 +4,23 @@ export default class FolderViewMenu extends LightningElement {
   items = [
   {
     label: 'Correspondence',
-    name: '1',
+    name: 'correspondence',
     expanded: false,
     items: [
       {
         label: 'Correspondence with Clients',
-        name: '2',
+        name: 'clients',
         expanded: false,
         items: [
           {
             label: 'Emails',
-            name: '3',
+            name: 'client emails',
             expanded: false,
             items: [],
           },
           {
             label: 'Phone Calls',
-            name: '4',
+            name: 'client calls',
             expanded: false,
             items: [],
           },
@@ -28,18 +28,18 @@ export default class FolderViewMenu extends LightningElement {
       },
       {
         label: 'Correspondence with Insurer',
-        name: '2',
+        name: 'insurer',
         expanded: false,
         items: [
           {
             label: 'Emails',
-            name: '3',
+            name: 'insure emails',
             expanded: false,
             items: [],
           },
           {
             label: 'Phone Calls',
-            name: '4',
+            name: 'insure calls',
             expanded: false,
             items: [],
           },
@@ -49,24 +49,24 @@ export default class FolderViewMenu extends LightningElement {
   },
   {
     label: 'Expenses',
-    name: '1',
+    name: 'expenses',
     expanded: false,
     items: [
       {
         label: 'Case Cost',
-        name: '2',
+        name: 'case cost',
         expanded: false,
         items: [],
       },
       {
           label: 'Client Cost',
-          name: '2',
+          name: 'client cost',
           expanded: false,
           items: [],
       },
       {
         label: 'Receipts',
-        name: '2',
+        name: 'receipts',
         expanded: false,
         items: [],
       },
@@ -74,23 +74,23 @@ export default class FolderViewMenu extends LightningElement {
   },
   {
     label: 'Incident Information',
-    name: '2',
+    name: 'incident',
     expanded: false,
     items: [
       {
         label: 'Damages',
-        name: '2',
+        name: 'damages',
         expanded: false,
         items: [
           {
             label: 'Description',
-            name: '3',
+            name: 'descrip',
             expanded: false,
             items: [],
           },
           {
             label: 'Photos',
-            name: '4',
+            name: 'photos',
             expanded: false,
             items: [],
           },
@@ -98,7 +98,7 @@ export default class FolderViewMenu extends LightningElement {
       },
       {
         label: 'Injured Statement',
-        name: '2',
+        name: 'injured',
         expanded: false,
         items: [],
       },
@@ -106,7 +106,7 @@ export default class FolderViewMenu extends LightningElement {
     },
     {
       label: 'Settlement',
-      name: '2',
+      name: 'settlement',
       expanded: false,
       items: [],
     },
