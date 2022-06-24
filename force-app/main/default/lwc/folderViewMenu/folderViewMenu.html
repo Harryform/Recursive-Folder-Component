@@ -1,3 +1,12 @@
 <template>
-    
+  <div>
+    <lightning-layout multiple-rows=“true”>
+      <lightning-layout-item size="12">
+        <h2 class=“big-text”>Select a Folder</h2>
+      </lightning-layout-item>
+      <div class=“slds-p-around_medium”>
+        <lightning-tree items={items} header="Folder View"></lightning-tree>
+      </div>
+    </lightning-layout>
+  </div>
 </template>
