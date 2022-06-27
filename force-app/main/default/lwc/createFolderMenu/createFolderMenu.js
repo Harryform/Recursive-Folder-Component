@@ -1,7 +1,5 @@
 import { LightningElement, api } from 'lwc';
 
-import updateFolderRecords from '@salesforce/apex/folderRecordService.updateFolderRecords';
-
 export default class CreateFolderMenu extends LightningElement {
   @api
   myRecordId;
