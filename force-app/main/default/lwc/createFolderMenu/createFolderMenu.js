@@ -1,29 +1,28 @@
-import { LightningElement, api } from 'lwc';
-
-import updateFolderRecords from '@salesforce/apex/folderRecordService.updateFolderRecords';
+import { LightningElement, api } from "lwc";
 
 export default class CreateFolderMenu extends LightningElement {
   @api
   myRecordId;
 
   get acceptedFormats() {
-    return ['.pdf', '.png'];
+    return [".pdf", ".png"];
   }
 
   handleUploadFinished(event) {
     // Get the list of uploaded files
     const uploadedFiles = event.detail.files;
-    alert('No. of files uploaded : ' + uploadedFiles.length);
+    // eslint-disable-next-line no-alert
+    alert("No. of files uploaded : " + uploadedFiles.length);
   }
 
-  value = 'inProgress';
+  value = "inProgress";
 
   get options() {
     return [
-      { label: 'Correspondence', value: 'correspondence' },
-      { label: 'Expenses', value: 'expenses' },
-      { label: 'Incident Information', value: 'incident' },
-      { label: 'Settlement', value: 'settle' },
+      { label: "Correspondence", value: "correspondence" },
+      { label: "Expenses", value: "expenses" },
+      { label: "Incident Information", value: "incident" },
+      { label: "Settlement", value: "settle" }
     ];
   }
 
