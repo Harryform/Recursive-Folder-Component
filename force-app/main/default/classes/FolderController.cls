@@ -1,4 +1,4 @@
-public with sharing class folderRecordService {
+public with sharing class FolderController {
   @AuraEnabled(cacheable=true scope='global')
   public static Zudoc_Folder__c[] getFolderRecords() {
     return [

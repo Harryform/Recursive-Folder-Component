@@ -1,8 +1,18 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire } from "lwc";
+import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { NavigationMixin } from 'lightning/navigation';
 
+const NAME_FIELD = 'Zudoc_Folder__c.Name';
+const FOLDER_ID = 'Zudoc_Folder__c.Id';
+const folderFields = [
+  NAME_FIELD,
+  FOLDER_ID,
+];
 export default class CreateFolderMenu extends LightningElement {
-  @api
+  folders;
   myRecordId;
+  name;
 
   get acceptedFormats() {
     return [".pdf", ".png"];
