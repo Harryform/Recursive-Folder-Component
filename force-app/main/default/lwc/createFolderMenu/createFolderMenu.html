@@ -8,10 +8,11 @@
     <p>Use the dropdown menu below to select the folder you would like to add your files to.</p>
     <div class="slds-p-bottom_medium">
       <lightning-combobox
-        name="folder pick"
+        name="Folder Pick"
+        label="Folder Name"
         value={value}
         placeholder="Choose a folder"
-        options={options}
+        options={folderOptions}
         onchange={handleChange} >
       </lightning-combobox>
     </div>
