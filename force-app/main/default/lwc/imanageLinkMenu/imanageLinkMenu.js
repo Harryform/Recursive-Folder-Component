@@ -1,3 +1,15 @@
-import { LightningElement } from 'lwc';
+import { LightningElement } from "lwc";
 
-export default class ImanageLinkMenu extends LightningElement {}
+import { NavigationMixin } from "lightning/navigation";
+
+export default class ImanageLinkMenu extends NavigationMixin(LightningElement) {
+  handleNavigate() {
+    const config = {
+      type: "standard__webPage",
+      attributes: {
+        url: "https://imanage.com/"
+      }
+    };
+    this[NavigationMixin.Navigate](config);
+  }
+}
