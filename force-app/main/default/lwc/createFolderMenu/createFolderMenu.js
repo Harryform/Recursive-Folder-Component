@@ -1,34 +1,19 @@
 import { LightningElement, api, wire, track } from "lwc";
 import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import { NavigationMixin } from 'lightning/navigation';
 
-const NAME_FIELD = 'Zudoc_Folder__c.Name';
-const FOLDER_ID = 'Zudoc_Folder__c.Id';
-const folderFields = [
-  NAME_FIELD,
-  FOLDER_ID,
-];
-let i=0;
-export default class CreateFolderMenu extends NavigationMixin(LightningElement) {
+export default class CreateFolderMenu extends LightningElement {
   folders;
   myRecordId;
   name;
-  
-  @wire(getFolderRecords)
-  loadFolders(result) {
-    console.log(JSON.parse(JSON.stringify(result)));
-    if (result.data) {
-      this.folders = result.data;
-    }
-  }
 
-  // Need to figure out how to not include "Root Folder"
   @wire(getFolderRecords)
   gettingOptionsArray({ error, data }) {
     if (data) {
-      for(i=0; i<data.length; i++) {
-        this.items = [...this.items, {value: data[i].Id, label: data[i].Name} ];
+      this.folders = data;
+      for(let i=0; i<data.length; i++) {
+        if (data[i].Zudoc_Parent_Folder__c != null) {
+          this.items = [...this.items, {value: data[i].Id, label: data[i].Name} ];
+        }
       }
       this.error = undefined;
     } else if (error) {

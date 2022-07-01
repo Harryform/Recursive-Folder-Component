@@ -6,6 +6,7 @@ public with sharing class FolderController {
         Id,
         Name,
         Zudoc_Parent_Folder__c,
+        Zudoc_Parent_Folder__r.Name,
         (SELECT Id, Name FROM Zudoc_Child_Folders__r)
       FROM Zudoc_Folder__c
     ];

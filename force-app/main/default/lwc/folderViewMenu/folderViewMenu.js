@@ -1,6 +1,23 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
+import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
 
 export default class FolderViewMenu extends LightningElement {
+  folders;
+  myRecordId;
+
+  // @wire(getFolderRecords)
+  // gettingFolderTree({ error, data }) {
+  //   if (data) {
+  //     for(let i=0; i<data.length; i++) {
+  //       this.items = [...this.items, {label: data[i+1].Name, name: data[i+1].Name, expanded: false, items: []} ];
+  //     }
+  //     this.error = undefined;
+  //   } else if (error) {
+  //     this.error = error;
+  //     this.folders = undefined;
+  //   }
+  // }
+
   items = [
   {
     label: 'Correspondence',
