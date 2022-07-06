@@ -11,4 +11,14 @@ public with sharing class FolderController {
       FROM Zudoc_Folder__c
     ];
   }
+
+  @AuraEnabled(cacheable=true)
+  public static Zudoc_Folder__c[] getRootChildren() {
+    return [
+      SELECT
+        Id,
+        Name FROM Zudoc_Folder__c
+        WHERE Zudoc_Parent_Folder__r.Name = 'Root Folder'
+    ];
+  }
 }
