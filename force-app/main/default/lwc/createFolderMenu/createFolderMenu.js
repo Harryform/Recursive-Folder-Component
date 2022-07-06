@@ -32,21 +32,13 @@ export default class CreateFolderMenu extends LightningElement {
   }
 
   @track items = [];
-  @track value = '';
-  @track chosenValue = '';
-
-  value = "inProgress";
+  myRecordId = '';
 
   get folderOptions() {
     return this.items;
   }
 
   handleChange(event) {
-    const selectedOption = event.detail.value;
-    this.chosenValue = selectedOption;
-  }
-
-  get selectedValue() {
-    return this.chosenValue;
+    this.myRecordId = event.detail.value;
   }
 }
