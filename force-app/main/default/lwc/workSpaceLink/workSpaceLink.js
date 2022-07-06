@@ -1,12 +1,12 @@
 import { LightningElement } from "lwc";
 
-export default class ButtonBasic extends LightningElement {
+export default class WorkSpaceLink extends LightningElement {
   clickedButtonLabel;
 
-  handleClick(event) {
-    this.previewModal = event.target.label;
-  }
   showModal = false;
+  handleClick() {
+    this.showModal = true;
+  }
 
   // @api show() {
   //     this.showModal = true;
