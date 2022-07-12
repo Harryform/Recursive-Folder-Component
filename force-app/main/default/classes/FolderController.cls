@@ -1,24 +1,16 @@
 public with sharing class FolderController {
   @AuraEnabled(cacheable=true scope='global')
-  public static Zudoc_Folder__c[] getFolderRecords() {
-    return [
-      SELECT
-        Id,
-        Name,
-        Zudoc_Parent_Folder__c,
-        Zudoc_Parent_Folder__r.Name,
-        (SELECT Id, Name FROM Zudoc_Child_Folders__r)
-      FROM Zudoc_Folder__c
-    ];
-  }
-
-  @AuraEnabled(cacheable=true)
-  public static Zudoc_Folder__c[] getRootChildren() {
-    return [
-      SELECT
-        Id,
-        Name FROM Zudoc_Folder__c
-        WHERE Zudoc_Parent_Folder__r.Name = 'Root Folder'
-    ];
+  public static Map<Id, Zudoc_Folder__c> getFolderRecords(){
+    List<Zudoc_Folder__c> folderList = [
+          SELECT
+            Id,
+            Name,
+            Zudoc_Parent_Folder__c,
+            Zudoc_Parent_Folder__r.Name,
+            (SELECT Id, Name FROM Zudoc_Child_Folders__r)
+          FROM Zudoc_Folder__c
+        ];
+    Map<Id, Zudoc_Folder__c> folderMap = new Map<Id, Zudoc_Folder__c>(folderList);
+    return folderMap;
   }
 }
