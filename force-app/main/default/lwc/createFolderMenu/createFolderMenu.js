@@ -1,18 +1,24 @@
-import { LightningElement, api, wire, track } from "lwc";
+import { LightningElement, wire, track } from "lwc";
 import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
 
 export default class CreateFolderMenu extends LightningElement {
   folders;
   myRecordId;
-  name;
 
   @wire(getFolderRecords)
-  gettingOptionsArray({ error, data }) {
-    if (data) {
+  gettingOptionsArray({data, error}) {
+    if(data){
       this.folders = data;
-      for(let i=0; i<data.length; i++) {
-        if (data[i].Zudoc_Parent_Folder__c != null) {
-          this.items = [...this.items, {value: data[i].Id, label: data[i].Name} ];
+      let folderId = '';
+      let folderName = '';
+      let parent = '';
+      let folder = '';
+      for(folder in data){
+        folderId = `${data[folder]['Id']}`;
+        folderName = `${data[folder]['Name']}`;
+        parent = `${data[folder]['Zudoc_Parent_Folder__c']}`;
+        if(parent != 'undefined'){
+          this.items = [...this.items, {value: folderId, label: folderName} ];
         }
       }
       this.error = undefined;
@@ -28,7 +34,7 @@ export default class CreateFolderMenu extends LightningElement {
 
   handleUploadFinished(event) {
     const uploadedFiles = event.detail.files;
-    alert("No. of files uploaded : " + uploadedFiles.length);
+    alert("Your file has been uploaded");
   }
 
   @track items = [];

@@ -5,76 +5,84 @@ export default class FolderViewMenu extends LightningElement {
   folders;
   myRecordId;
   name;
+  root;
 
-  // @wire(getFolderRecords)
-  // gettingChildren({ error, data }) {
-  //   if (data) {
-  //     this.folders = data;
-  //     for(let k=0; k<data.length; k++) {
-  //       if(data[k].Zudoc_Child_Folders__r == null) {
-  //         console.log('tester3', data[k].Name);
-  //         let uniqueItems = [];
-  //         if(!uniqueItems.includes(data[k].Name)) {
-  //           uniqueItems.push(data[k].Name);
-  //         }
-  //         this.lvlOne = [...this.lvlOne, {label: data[k].Name, name: data[k].Name, expanded: false, items: [this.lvlOne]}];
-  //       }
-  //     }
-  //     this.error = undefined;
-  //   } else if (error) {
-  //     this.error = error;
-  //     this.folders = undefined;
-  //   }
-  // }
-
-  // this is the current progress on a recursive function
-  // @wire(getFolderRecords)
-  // folderRecursion({error, data}) {
-  //   if (data) {
-  //     this.folders = data;
-  //     for (let i=0; i<data.length; i++) {
-  //       if (data[i].Zudoc_Parent_Folder__c == null) {
-  //         let root = [];
-  //         root.push(data[i]);
-  //         console.log('TESTER', data[i].Name);
-  //       } else if (data[i].Zudoc_Parent_Folder__c != null) {
-  //         let newList = [];
-  //         if (!newList.includes(data[i].Name)) {
-  //           newList.push(data[i].Name);
-  //           console.log('TESTER2', newList);
-  //         }
-  //       }
-  //     }
-  //     this.error = undefined;
-  //   } else if(error) {
-  //     this.error = error;
-  //     this.folders = undefined;
-  //   }
-  // }
-
-
-  // currently this works, but I need to make the query a Map in APEX
   @wire(getFolderRecords)
-  gettingParents({ error, data }) {
-    if (data) {
+  folderData({data, error}){
+    if(data){
       this.folders = data;
-      console.log('folders', JSON.parse(JSON.stringify(this.folders)));
-      for(let i=0; i<data.length; i++) {
-        if(data[i].Zudoc_Parent_Folder__c == null) {
-          console.log(data[i].Zudoc_Child_Folders__r);
-          for(let j=0; j<data[i].Zudoc_Child_Folders__r.length; j++) {
-            this.items = [...this.items,
-            {label: data[i].Zudoc_Child_Folders__r[j].Name, name: data[i].Zudoc_Child_Folders__r[j].Name, expanded: false, items: [this.items]}];
-          }
+      const folderList = [];
+      const folderInfo = {};
+      let folder = '';
+      let folderId = '';
+      let root = '';
+      let childId = [];
+
+      for(folder in data){
+        folderId = `${data[folder]['Id']}`;
+        childId = `${data[folder]['Zudoc_Child_Folders__r']}`;
+        const parentId = `${data[folder]['Zudoc_Parent_Folder__c']}`;
+        const folderName = `${data[folder]['Name']}`;
+        console.log('FOLDER NAME', folderName);
+        console.log('PARENT TEST', folder + "'s parent Id is " + parentId);
+        if(parentId == 'undefined'){
+          root = folderId;
+          console.log('ROOT PLEASE?', root);
         }
       }
+      folderList = this.folderRecursion(data, root, []);
+      console.log('FOLDER STILL?', folder);
+      console.log('ROOT STILL?', root);
+      console.log('HELP', data);
       this.error = undefined;
-    } else if (error) {
+    } else if(error){
       this.error = error;
       this.folders = undefined;
     }
   }
 
+  @track folderName = '';
+  @track folderId = '';
+  @track root = '';
+
+  folderRecursion(result, current, newData) {
+    const folderName = 'Name';
+    const folderId = 'Id';
+    const child = 'Zudoc_Child_Folders__r';
+    const childId = child[folderId];
+    if(current['Id'] == undefined){
+      console.log('NO DEFINITION', current['Name']);
+      return;
+    }
+    console.log('BEFORE FOR LOOP', current, current[child]);
+    for(let j=0; j<result.length; j++){
+      console.log('CHILDS', result[j][child]);
+      if (result[j][child] != null) {
+        console.log('NEW CHILD', result[j][child]);
+        if (!newData.items){
+          newData.items = result;
+          console.log('NEW DATA', newData);
+          for (let k = 0; k < result[j][child].length; k++){
+            newData.items.push(
+              {
+                Id: child[folderId],
+                Zudoc_Parent_Folder__c: child[k].Zudoc_Parent_Folder__c,
+                label: child[k][folderName],
+                name: child[k].Name,
+                expanded: false,
+                items: newData.items[k][child]
+              });
+            this.folderRecursion(result, child[k], newData.items[k]);
+          }
+        }
+      }
+    }
+    console.log('NEW TEST', newData);
+    return newData;
+  }
+
+  @track newJson = [];
+  @track newData = [];
   @track items = [];
 
   // items = [
