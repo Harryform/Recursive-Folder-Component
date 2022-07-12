@@ -35,13 +35,18 @@
         <p>WORKSPACE NAME</p>
       </div>
 
-      <div class="slds-modal__footer">
+      <div class="slds-modal__footer modalButtons">
+        <!-- on Cancel close modal  -->
         <button
           class="slds-button slds-button_neutral"
-          aria-label="Cancel and close"
+          onclick={handleDialogClose}
+          title="Cancel"
+          aria-label="Cancel"
         >
           Cancel
         </button>
+
+        <!-- on Save start spinner -->
         <button class="slds-button slds-button_brand">Save</button>
       </div>
     </div>

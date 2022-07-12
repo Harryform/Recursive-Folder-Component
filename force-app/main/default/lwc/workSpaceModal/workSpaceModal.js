@@ -8,11 +8,16 @@ export default class WorkSpaceModal extends LightningElement {
 
     return classes.join(" ");
   }
+
   get backdropClasses() {
     const classes = ["slds-backdrop"];
 
     classes.push("slds-backdrop_open");
 
     return classes.join(" ");
+  }
+
+  handleDialogClose() {
+    this.dispatchEvent(new CustomEvent("close"));
   }
 }

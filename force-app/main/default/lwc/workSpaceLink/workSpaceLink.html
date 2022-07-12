@@ -1,7 +1,7 @@
 <template>
   <h2 class="big-text">Create your Workspace</h2>
   <!-- Default/basic -->
-  <div class="slds-p-around_medium" aria-hidden="true">
+  <div class="slds-p-around_medium" aria-hidden="false">
     <lightning-input
       type="text"
       label="Enter Workspace Name"
@@ -22,5 +22,9 @@
     </lightning-button>
   </div>
 
-  <c-work-space-modal if:true={showModal}></c-work-space-modal>
+  <c-work-space-modal
+    if:true={showModal}
+    onclose={buttonClose}
+    onsave={buttonSave}
+  ></c-work-space-modal>
 </template>

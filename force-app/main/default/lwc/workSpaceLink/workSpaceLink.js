@@ -8,10 +8,11 @@ export default class WorkSpaceLink extends LightningElement {
     this.showModal = true;
   }
 
-  // @api show() {
-  //     this.showModal = true;
-  // }
-  handleDialogClose() {
+  buttonClose() {
+    this.showModal = false;
+  }
+
+  buttonSave() {
     this.showModal = false;
   }
 }
