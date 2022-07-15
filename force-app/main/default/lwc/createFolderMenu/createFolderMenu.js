@@ -4,6 +4,7 @@ import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords
 export default class CreateFolderMenu extends LightningElement {
   folders;
   myRecordId;
+  myParentId;
 
   @wire(getFolderRecords)
   gettingOptionsArray({data, error}) {
@@ -17,6 +18,7 @@ export default class CreateFolderMenu extends LightningElement {
         folderId = data[folder]['Id'];
         folderName = data[folder]['Name'];
         parent = data[folder]['Zudoc_Parent_Folder__c'];
+        this.allItems = [...this.allItems, {value: folderId, label: folderName} ];
         if(parent != undefined){
           this.items = [...this.items, {value: folderId, label: folderName} ];
         }
@@ -38,13 +40,23 @@ export default class CreateFolderMenu extends LightningElement {
   }
 
   @track items = [];
+  @track allItems = [];
   myRecordId = '';
+  myParentId = '';
 
   get folderOptions() {
     return this.items;
   }
 
+  get parentOptions(){
+    return this.allItems;
+  }
+
   handleChange(event) {
     this.myRecordId = event.detail.value;
+  }
+
+  handleParent(event){
+    this.myParentId = event.detail.value;
   }
 }
