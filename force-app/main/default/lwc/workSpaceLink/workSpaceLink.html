@@ -1,4 +1,7 @@
 <template>
+  <!-- <lightning-button label="Show Toast" onclick={showToast}>
+  </lightning-button> -->
+
   <h2 class="big-text">Create your Workspace</h2>
   <!-- Default/basic -->
   <div class="slds-p-around_medium" aria-hidden="false">
@@ -22,9 +25,14 @@
     </lightning-button>
   </div>
 
+  <div if:true={saveModal} class="slds-is-relative">
+    <lightning-spinner alternative-text="Loading..."> </lightning-spinner>
+  </div>
+
   <c-work-space-modal
     if:true={showModal}
     onclose={buttonClose}
     onsave={buttonSave}
-  ></c-work-space-modal>
+  >
+  </c-work-space-modal>
 </template>

@@ -1,7 +1,10 @@
+/* eslint-disable @lwc/lwc/no-async-operation */
 import { LightningElement } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class WorkSpaceLink extends LightningElement {
   clickedButtonLabel;
+  saveModal = false;
 
   showModal = false;
   handleClick() {
@@ -12,7 +15,20 @@ export default class WorkSpaceLink extends LightningElement {
     this.showModal = false;
   }
 
+  showToast() {
+    const event = new ShowToastEvent({
+      title: "Success",
+      message: "Workspace was successfully create",
+      variant: "success"
+    });
+    this.dispatchEvent(event);
+  }
+
   buttonSave() {
     this.showModal = false;
+    this.saveModal = true;
+    setTimeout(() => {
+      this.saveModal = true;
+    }, 3000);
   }
 }
