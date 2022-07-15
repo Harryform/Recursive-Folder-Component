@@ -20,4 +20,8 @@ export default class WorkSpaceModal extends LightningElement {
   handleDialogClose() {
     this.dispatchEvent(new CustomEvent("close"));
   }
+
+  buttonSave() {
+    this.dispatchEvent(new CustomEvent("save"));
+  }
 }

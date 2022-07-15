@@ -28,7 +28,7 @@ export default class WorkSpaceLink extends LightningElement {
     this.showModal = false;
     this.saveModal = true;
     setTimeout(() => {
-      this.saveModal = true;
+      this.saveModal = false;
     }, 3000);
   }
 }
