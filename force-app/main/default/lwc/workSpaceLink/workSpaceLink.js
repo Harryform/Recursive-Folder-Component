@@ -15,20 +15,26 @@ export default class WorkSpaceLink extends LightningElement {
     this.showModal = false;
   }
 
-  showToast() {
-    const event = new ShowToastEvent({
-      title: "Success",
-      message: "Workspace was successfully create",
-      variant: "success"
-    });
-    this.dispatchEvent(event);
-  }
+  // showToast() {
+  //   const event = new ShowToastEvent({
+  //     title: "Success",
+  //     message: "Workspace was successfully create",
+  //     variant: "success"
+  //   });
+  //   this.dispatchEvent(event);
+  // }
 
   buttonSave() {
     this.showModal = false;
     this.saveModal = true;
     setTimeout(() => {
       this.saveModal = false;
+      const event = new ShowToastEvent({
+        title: "Success",
+        message: "Workspace was successfully create",
+        variant: "success"
+      });
+      this.dispatchEvent(event);
     }, 3000);
   }
 }
