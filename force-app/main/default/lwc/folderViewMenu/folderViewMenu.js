@@ -12,26 +12,28 @@ export default class FolderViewMenu extends LightningElement {
     if(data){
       this.folders = data;
       const folderList = [];
-      const folderInfo = {};
       let folder = '';
       let folderId = '';
       let root = '';
       let childId = [];
 
       for(folder in data){
-        folderId = `${data[folder]['Id']}`;
-        childId = `${data[folder]['Zudoc_Child_Folders__r']}`;
-        const parentId = `${data[folder]['Zudoc_Parent_Folder__c']}`;
-        const folderName = `${data[folder]['Name']}`;
+        folderId = data[folder];
+        childId = data[folder]['Zudoc_Child_Folders__r'];
+        const parentId = data[folder]['Zudoc_Parent_Folder__c'];
+        const folderName = data[folder]['Name'];
         console.log('FOLDER NAME', folderName);
         console.log('PARENT TEST', folder + "'s parent Id is " + parentId);
-        if(parentId == 'undefined'){
+        if(parentId == undefined){
           root = folderId;
           console.log('ROOT PLEASE?', root);
+          folderList = this.folderRecursion(root, []);
+        } else {
+          console.log('CURRENT FOLDER', folderId);
+          folderList = this.folderRecursion(folderId, []);
         }
+        // folderList = this.folderRecursion(root, []);
       }
-      folderList = this.folderRecursion(data, root, []);
-      console.log('FOLDER STILL?', folder);
       console.log('ROOT STILL?', root);
       console.log('HELP', data);
       this.error = undefined;
@@ -45,43 +47,44 @@ export default class FolderViewMenu extends LightningElement {
   @track folderId = '';
   @track root = '';
 
-  folderRecursion(result, current, newData) {
+  folderRecursion(current, items) {
     const folderName = 'Name';
     const folderId = 'Id';
-    const child = 'Zudoc_Child_Folders__r';
-    const childId = child[folderId];
-    if(current['Id'] == undefined){
-      console.log('NO DEFINITION', current['Name']);
+    let children = '';
+    let oneChild = '';
+    let parent = '';
+
+    if(current.Id == undefined){
+      console.log('NO DEFINITION', current.Id);
       return;
     }
-    console.log('BEFORE FOR LOOP', current, current[child]);
-    for(let j=0; j<result.length; j++){
-      console.log('CHILDS', result[j][child]);
-      if (result[j][child] != null) {
-        console.log('NEW CHILD', result[j][child]);
-        if (!newData.items){
-          newData.items = result;
-          console.log('NEW DATA', newData);
-          for (let k = 0; k < result[j][child].length; k++){
-            newData.items.push(
-              {
-                Id: child[folderId],
-                Zudoc_Parent_Folder__c: child[k].Zudoc_Parent_Folder__c,
-                label: child[k][folderName],
-                name: child[k].Name,
-                expanded: false,
-                items: newData.items[k][child]
-              });
-            this.folderRecursion(result, child[k], newData.items[k]);
-          }
+    console.log('BEFORE FOR LOOP', current.Zudoc_Child_Folders__r);
+    children = current.Zudoc_Child_Folders__r;
+    console.log('CHILDREN', children);
+
+    for(oneChild in children){
+      oneChild = children[oneChild];
+      parent = oneChild.Zudoc_Parent_Folder__c;
+      if(oneChild != undefined){
+        console.log('THIS IS THE CHILD', oneChild, current.Name);
+        if(!items){
+          items = [];
         }
+        items.push(
+          {
+            label: oneChild.Name,
+            name: oneChild.Name,
+            parentId: current.Id,
+            expanded: false,
+            items: []
+          });
+        // this.folderRecursion(oneChild, items);
       }
     }
-    console.log('NEW TEST', newData);
-    return newData;
+    console.log('NEW TEST', items);
+    return this.folderRecursion(oneChild, items);
   }
 
-  @track newJson = [];
   @track newData = [];
   @track items = [];
 

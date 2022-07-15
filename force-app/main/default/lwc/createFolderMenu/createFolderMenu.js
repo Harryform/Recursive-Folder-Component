@@ -14,10 +14,10 @@ export default class CreateFolderMenu extends LightningElement {
       let parent = '';
       let folder = '';
       for(folder in data){
-        folderId = `${data[folder]['Id']}`;
-        folderName = `${data[folder]['Name']}`;
-        parent = `${data[folder]['Zudoc_Parent_Folder__c']}`;
-        if(parent != 'undefined'){
+        folderId = data[folder]['Id'];
+        folderName = data[folder]['Name'];
+        parent = data[folder]['Zudoc_Parent_Folder__c'];
+        if(parent != undefined){
           this.items = [...this.items, {value: folderId, label: folderName} ];
         }
       }
