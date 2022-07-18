@@ -1,7 +1,4 @@
 <template>
-  <!-- <lightning-button label="Show Toast" onclick={showToast}>
-  </lightning-button> -->
-
   <h2 class="big-text">Create your Workspace</h2>
   <!-- Default/basic -->
   <div class="slds-p-around_medium" aria-hidden="false">
@@ -9,6 +6,7 @@
       type="text"
       label="Enter Workspace Name"
       placeholder="Type here..."
+      onchange={handleNameChange}
     ></lightning-input>
   </div>
 
@@ -31,6 +29,7 @@
 
   <c-work-space-modal
     if:true={showModal}
+    workspace-name={workSpaceName}
     onclose={buttonClose}
     onsave={buttonSave}
   >
