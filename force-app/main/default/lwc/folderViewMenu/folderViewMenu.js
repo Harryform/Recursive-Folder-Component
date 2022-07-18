@@ -1,11 +1,13 @@
 import { LightningElement, wire, track } from 'lwc';
 import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
+import { getRecord } from 'lightning/uiRecordApi';
 
 export default class FolderViewMenu extends LightningElement {
   folders;
-  myRecordId;
   name;
   root;
+  folder;
+  id;
 
   @wire(getFolderRecords)
   folderData({data, error}){
@@ -35,31 +37,42 @@ export default class FolderViewMenu extends LightningElement {
 
   folderRecursion(current) {
     let children = '';
-    let oneChild = '';
+    let child = '';
     let parent = '';
+    let childId = '';
 
     if(current.Id == undefined){
       return;
     }
     children = current.Zudoc_Child_Folders__r;
     let items = [];
-    for(oneChild in children){
-      oneChild = children[oneChild];
-      parent = oneChild.Zudoc_Parent_Folder__c;
-      if(oneChild != undefined){
+    for(child in children){
+      child = children[child];
+      childId = child.Id;
+      console.log('CHILD', child);
+      parent = child.Zudoc_Parent_Folder__c;
+      if(child != undefined){
         items.push(
           {
-            label: oneChild.Name,
-            name: oneChild.Name,
+            id: child.Id,
+            label: child.Name,
+            name: child.Name,
             parentId: current.Id,
             expanded: false,
-            items: this.folderRecursion(this.folders[oneChild.Id])
+            items: this.folderRecursion(this.folders[child.Id])
           });
       }
     }
+    console.log('ITEMS', items);
     return items;
   }
 
   @track items = [];
+  value = '';
+
+  handleClick(event){
+    this.folder = event.detail.name;
+    console.log('CHOSEN', this.folder);
+  }
 
 }

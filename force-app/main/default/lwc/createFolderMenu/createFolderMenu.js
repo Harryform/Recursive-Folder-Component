@@ -58,5 +58,6 @@ export default class CreateFolderMenu extends LightningElement {
 
   handleParent(event){
     this.myParentId = event.detail.value;
+    console.log('THE PARENT', myParentId);
   }
 }
