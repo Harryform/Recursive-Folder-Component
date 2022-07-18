@@ -1,32 +1,63 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, wire, track } from "lwc";
+import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
 
 export default class CreateFolderMenu extends LightningElement {
-  @api
+  folders;
   myRecordId;
+  myParentId;
+
+  @wire(getFolderRecords)
+  gettingOptionsArray({data, error}) {
+    if(data){
+      this.folders = data;
+      let folderId = '';
+      let folderName = '';
+      let parent = '';
+      let folder = '';
+      for(folder in data){
+        folderId = data[folder]['Id'];
+        folderName = data[folder]['Name'];
+        parent = data[folder]['Zudoc_Parent_Folder__c'];
+        this.allItems = [...this.allItems, {value: folderId, label: folderName} ];
+        if(parent != undefined){
+          this.items = [...this.items, {value: folderId, label: folderName} ];
+        }
+      }
+      this.error = undefined;
+    } else if (error) {
+      this.error = error;
+      this.folders = undefined;
+    }
+  }
 
   get acceptedFormats() {
     return [".pdf", ".png"];
   }
 
   handleUploadFinished(event) {
-    // Get the list of uploaded files
     const uploadedFiles = event.detail.files;
-    // eslint-disable-next-line no-alert
-    alert("No. of files uploaded : " + uploadedFiles.length);
+    alert("Your file has been uploaded");
   }
 
-  value = "inProgress";
+  @track items = [];
+  @track allItems = [];
+  myRecordId = '';
+  myParentId = '';
 
-  get options() {
-    return [
-      { label: "Correspondence", value: "correspondence" },
-      { label: "Expenses", value: "expenses" },
-      { label: "Incident Information", value: "incident" },
-      { label: "Settlement", value: "settle" }
-    ];
+  get folderOptions() {
+    return this.items;
+  }
+
+  get parentOptions(){
+    return this.allItems;
   }
 
   handleChange(event) {
-    this.value = event.detail.value;
+    this.myRecordId = event.detail.value;
+  }
+
+  handleParent(event){
+    this.myParentId = event.detail.value;
+    console.log('THE PARENT', myParentId);
   }
 }

@@ -1,7 +1,9 @@
 import { LightningElement } from "lwc";
 
 export default class FolderView extends LightningElement {
-  menuOption = "folders";
+
+
+  menuOption = 'folders';
 
   get displayFolderMenu() {
     return this.menuOption === "folders";

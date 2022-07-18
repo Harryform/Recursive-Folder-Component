@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>FolderListUpdate</masterLabel>
+    <description>This message is fired when the Folder list is updated.</description>
+    <lightningMessageFields>
+        <fieldName>folders</fieldName>
+        <description>List of folder records.</description>
+    </lightningMessageFields>
+</LightningMessageChannel>

@@ -1,114 +1,78 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
+import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
+import { getRecord } from 'lightning/uiRecordApi';
 
 export default class FolderViewMenu extends LightningElement {
-  items = [
-  {
-    label: 'Correspondence',
-    name: 'correspondence',
-    expanded: false,
-    items: [
-      {
-        label: 'Correspondence with Clients',
-        name: 'clients',
-        expanded: false,
-        items: [
+  folders;
+  name;
+  root;
+  folder;
+  id;
+
+  @wire(getFolderRecords)
+  folderData({data, error}){
+    if(data){
+      this.folders = data;
+      let folder = '';
+      let folderObject = '';
+      let root = '';
+
+      for(folder in data){
+        folderObject = data[folder];
+        const parentId = data[folder]['Zudoc_Parent_Folder__c'];
+        if(parentId == undefined){
+          root = folderObject;
+          this.items = this.folderRecursion(root);
+        }
+      }
+      this.error = undefined;
+    } else if(error){
+      this.error = error;
+      this.folders = undefined;
+    }
+  }
+
+  @track folderObject = '';
+  @track root = '';
+
+  folderRecursion(current) {
+    let children = '';
+    let child = '';
+    let parent = '';
+    let childId = '';
+
+    if(current.Id == undefined){
+      return;
+    }
+    children = current.Zudoc_Child_Folders__r;
+    let items = [];
+    for(child in children){
+      child = children[child];
+      childId = child.Id;
+      console.log('CHILD', child);
+      parent = child.Zudoc_Parent_Folder__c;
+      if(child != undefined){
+        items.push(
           {
-            label: 'Emails',
-            name: 'client emails',
+            id: child.Id,
+            label: child.Name,
+            name: child.Name,
+            parentId: current.Id,
             expanded: false,
-            items: [],
-          },
-          {
-            label: 'Phone Calls',
-            name: 'client calls',
-            expanded: false,
-            items: [],
-          },
-        ],
-      },
-      {
-        label: 'Correspondence with Insurer',
-        name: 'insurer',
-        expanded: false,
-        items: [
-          {
-            label: 'Emails',
-            name: 'insure emails',
-            expanded: false,
-            items: [],
-          },
-          {
-            label: 'Phone Calls',
-            name: 'insure calls',
-            expanded: false,
-            items: [],
-          },
-        ]
-      },
-    ],
-  },
-  {
-    label: 'Expenses',
-    name: 'expenses',
-    expanded: false,
-    items: [
-      {
-        label: 'Case Cost',
-        name: 'case cost',
-        expanded: false,
-        items: [],
-      },
-      {
-          label: 'Client Cost',
-          name: 'client cost',
-          expanded: false,
-          items: [],
-      },
-      {
-        label: 'Receipts',
-        name: 'receipts',
-        expanded: false,
-        items: [],
-      },
-    ],
-  },
-  {
-    label: 'Incident Information',
-    name: 'incident',
-    expanded: false,
-    items: [
-      {
-        label: 'Damages',
-        name: 'damages',
-        expanded: false,
-        items: [
-          {
-            label: 'Description',
-            name: 'descrip',
-            expanded: false,
-            items: [],
-          },
-          {
-            label: 'Photos',
-            name: 'photos',
-            expanded: false,
-            items: [],
-          },
-        ]
-      },
-      {
-        label: 'Injured Statement',
-        name: 'injured',
-        expanded: false,
-        items: [],
-      },
-      ]
-    },
-    {
-      label: 'Settlement',
-      name: 'settlement',
-      expanded: false,
-      items: [],
-    },
-  ]
+            items: this.folderRecursion(this.folders[child.Id])
+          });
+      }
+    }
+    console.log('ITEMS', items);
+    return items;
+  }
+
+  @track items = [];
+  value = '';
+
+  handleClick(event){
+    this.folder = event.detail.name;
+    console.log('CHOSEN', this.folder);
+  }
+
 }

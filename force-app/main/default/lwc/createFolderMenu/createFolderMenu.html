@@ -1,6 +1,17 @@
 <template>
   <h2 class="big-text">Create A New Folder</h2>
   <div class="slds-p-top_medium">
+    <p>Select which folder you would like to add your newly created folder to.</p>
+    <div class="slds-p-bottom_medium">
+      <lightning-combobox
+        name="Folder Location"
+        label=""
+        value=""
+        placeholder="Choose a folder"
+        options={parentOptions}
+        onchange={handleParent} >
+      </lightning-combobox>
+    </div>
     <div class="slds-p-bottom_medium">
       <lightning-button class="medium-text" variant="brand-outline" label="Create New Folder" title="Primary action with lighter look" onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
     </div>
@@ -8,10 +19,11 @@
     <p>Use the dropdown menu below to select the folder you would like to add your files to.</p>
     <div class="slds-p-bottom_medium">
       <lightning-combobox
-        name="folder pick"
-        value={value}
+        name="Folder Pick"
+        label=""
+        value=""
         placeholder="Choose a folder"
-        options={options}
+        options={folderOptions}
         onchange={handleChange} >
       </lightning-combobox>
     </div>
