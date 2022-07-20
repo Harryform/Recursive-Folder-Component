@@ -2,9 +2,7 @@
   <div>
     <lightning-layout multiple-rows="true">
       <lightning-layout-item size="12">
-        <div
-          class="page-section page-header slds-theme_default slds-box display-flex settings-header"
-        >
+        <div class="page-section page-header slds-theme_default slds-box display-flex settings-header">
           <div class="display-flex">
             <lightning-icon
               class="icon-color"
@@ -14,68 +12,88 @@
               title="Folder"
             ></lightning-icon>
           </div>
-          <h2
-            class="slds-p-left_large slds-p-top_x-small slds-text-heading_large bold display-flex"
-          >
+          <h2 class="slds-p-left_large slds-p-top_x-small slds-text-heading_large bold display-flex">
             ZuDocs
           </h2>
         </div>
       </lightning-layout-item>
       <lightning-layout-item size="12">
         <lightning-layout>
-          <lightning-layout-item size="2" class="slds-p-top_small">
-            <div class="slds-theme_default slds-box slds-p-around_none">
-              <lightning-vertical-navigation onselect={handleMenuSelect}>
-                <lightning-vertical-navigation-section label="Menu">
-                  <lightning-vertical-navigation-item
-                    label="Folder View"
-                    name="folders"
-                    class="slds-is-active"
-                  ></lightning-vertical-navigation-item>
-                  <lightning-vertical-navigation-item
-                    label="Create Folders and Upload Files"
-                    name="create"
-                  ></lightning-vertical-navigation-item>
-                  <lightning-vertical-navigation-item
-                    label="Link iManage"
-                    name="imanage"
-                  ></lightning-vertical-navigation-item>
-                  <lightning-vertical-navigation-item
-                    label="Create Workspace"
-                    name="workspace"
-                  ></lightning-vertical-navigation-item>
-                </lightning-vertical-navigation-section>
-              </lightning-vertical-navigation>
+          <lightning-layout-item
+            class="slds-p-top_small"
+            size="4"
+          >
+            <div class="slds-theme_default slds-box">
+              <h2 class="big-text slds-p-bottom_small">Select a Folder</h2>
+              <lightning-tree class="slds-p-top_small" items={items} onselect={handleSelect} header="Folder View"></lightning-tree>
             </div>
           </lightning-layout-item>
           <lightning-layout-item
-            class="slds-p-left_small slds-p-top_small"
-            size="10"
+            class="slds-p-left_medium slds-p-top_small"
+            size="8"
           >
-            <div
-              if:true={displayFolderMenu}
-              class="slds-theme_default slds-box"
-            >
-              <c-folder-view-menu></c-folder-view-menu>
-            </div>
-            <div
-              if:true={displayCreateMenu}
-              class="slds-theme_default slds-box"
-            >
-              <c-create-folder-menu></c-create-folder-menu>
-            </div>
-            <div
-              if:true={displayImanageMenu}
-              class="slds-theme_default slds-box"
-            >
-              <c-imanage-link-menu></c-imanage-link-menu>
-            </div>
-
-            <div
-              if:true={displayWorkspaceLink}
-              class="slds-theme_default slds-box"
-            >
-              <c-work-space-link></c-work-space-link>
+            <template if:true={show}>
+              <div class="slds-theme_default slds-box slds-p-bottom_medium">
+                <div class="slds-p-bottom_medium">
+                  <lightning-button class="medium-text" variant="brand-outline" label="Create New Folder" title="Primary action with lighter look"
+                    onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
+                </div>
+                <h2 class="big-text">Upload Documents</h2>
+                <div class="slds-p-bottom_medium">
+                  <lightning-file-upload
+                    label=""
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    record-id={myRecordId}
+                    onuploadfinished={handleUploadFinished}
+                    multiple
+                  >
+                  </lightning-file-upload>
+                </div>
+                <h2 class="big-text slds-p-bottom_x-small">Files</h2>
+                <lightning-datatable
+                  key-field="id"
+                  columns={columns}
+                  data={data}
+                  hide-checkbox-column
+                  default-sort-direction={defaultSortDirection}
+                  sorted-direction={sortDirection}
+                  sorted-by={sortedBy}
+                  onsort={onHandleSort}>
+                </lightning-datatable>
+              </div>
+            </template>
+            <div class="slds-theme_default slds-box slds-p-top_medium">
+              <h2 class="big-text">Create your Workspace</h2>
+              <div class="slds-p-around_medium" aria-hidden="false">
+                <lightning-input
+                  type="text"
+                  label="Enter Workspace Name"
+                  placeholder="Type here..."
+                  onchange={handleNameChange}
+                ></lightning-input>
+              </div>
+              <div class="slds-p-top_small slds-p-bottom_large">
+                <lightning-button
+                  class="medium-text"
+                  variant="brand-outline"
+                  label="Create Workspace"
+                  title="Primary action with lighter look"
+                  onclick={handleClick}
+                  icon-name="utility:new"
+                >
+                </lightning-button>
+              </div>
+              <div if:true={saveModal} class="example">
+                <lightning-spinner variant="brand" size="large" alternative-text="Loading..."> </lightning-spinner>
+              </div>
+              <c-work-space-modal
+                if:true={showModal}
+                workspace-name={workSpaceName}
+                onclose={buttonClose}
+                onsave={buttonSave}
+              >
+              </c-work-space-modal>
             </div>
           </lightning-layout-item>
         </lightning-layout>
