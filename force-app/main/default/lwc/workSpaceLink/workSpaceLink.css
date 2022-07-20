@@ -7,3 +7,8 @@
 .medium-text {
   font-size: 0.85rem;
 }
+
+.example{
+  --lwc-brandPrimary: rgb(115, 208, 137);
+  height: 200px;
+}

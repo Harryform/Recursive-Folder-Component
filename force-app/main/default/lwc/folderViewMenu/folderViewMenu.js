@@ -7,7 +7,6 @@ export default class FolderViewMenu extends LightningElement {
   name;
   root;
   folder;
-  id;
 
   @wire(getFolderRecords)
   folderData({data, error}){
@@ -49,30 +48,26 @@ export default class FolderViewMenu extends LightningElement {
     for(child in children){
       child = children[child];
       childId = child.Id;
-      console.log('CHILD', child);
       parent = child.Zudoc_Parent_Folder__c;
       if(child != undefined){
         items.push(
           {
             id: child.Id,
             label: child.Name,
-            name: child.Name,
+            name: child.Id,
             parentId: current.Id,
             expanded: false,
             items: this.folderRecursion(this.folders[child.Id])
           });
       }
     }
-    console.log('ITEMS', items);
     return items;
   }
 
   @track items = [];
-  value = '';
 
-  handleClick(event){
-    this.folder = event.detail.name;
-    console.log('CHOSEN', this.folder);
+  handleSelect(event){
+    let targetName = event.detail.name;
+    console.log('CHOSEN', targetName);
   }
-
 }
