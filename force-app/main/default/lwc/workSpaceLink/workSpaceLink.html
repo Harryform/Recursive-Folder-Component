@@ -1,37 +1,30 @@
 <template>
-  <h2 class="big-text">Create your Workspace</h2>
-  <!-- Default/basic -->
+  <h2 class="big-text">Create Your Workspace</h2>
   <div class="slds-p-around_medium" aria-hidden="false">
     <lightning-input
       type="text"
       label="Enter Workspace Name"
       placeholder="Type here..."
-      onchange={handleNameChange}
-    ></lightning-input>
+      onchange={handleNameChange}>
+    </lightning-input>
   </div>
-
-  <!-- Create Button -->
-  <div class="slds-p-top_medium">
+  <div class="slds-p-top_small slds-p-bottom_small">
     <lightning-button
       class="medium-text"
       variant="brand-outline"
       label="Create Workspace"
       title="Primary action with lighter look"
       onclick={handleClick}
-      icon-name="utility:new"
-    >
+      icon-name="utility:new">
     </lightning-button>
   </div>
-
   <div if:true={saveModal} class="example">
     <lightning-spinner variant="brand" size="large" alternative-text="Loading..."> </lightning-spinner>
   </div>
-
   <c-work-space-modal
     if:true={showModal}
     workspace-name={workSpaceName}
     onclose={buttonClose}
-    onsave={buttonSave}
-  >
+    onsave={buttonSave}>
   </c-work-space-modal>
 </template>

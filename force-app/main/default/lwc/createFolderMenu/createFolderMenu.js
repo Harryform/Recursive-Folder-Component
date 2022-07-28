@@ -1,63 +1,54 @@
-import { LightningElement, wire, track } from "lwc";
-import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
+import { LightningElement, api, track } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import submitNewFolder from '@salesforce/apex/FolderController.submitNewFolder';
 
 export default class CreateFolderMenu extends LightningElement {
-  folders;
-  myRecordId;
-  myParentId;
+  saveModal = false;
+  showModal = false;
+  @api myRecordId;
+  newFolderName;
+  newFolderId;
+  @track folderName;
+  @track parentFolder;
+  @track result;
+  @track newFolderId;
 
-  @wire(getFolderRecords)
-  gettingOptionsArray({data, error}) {
-    if(data){
-      this.folders = data;
-      let folderId = '';
-      let folderName = '';
-      let parent = '';
-      let folder = '';
-      for(folder in data){
-        folderId = data[folder]['Id'];
-        folderName = data[folder]['Name'];
-        parent = data[folder]['Zudoc_Parent_Folder__c'];
-        this.allItems = [...this.allItems, {value: folderId, label: folderName} ];
-        if(parent != undefined){
-          this.items = [...this.items, {value: folderId, label: folderName} ];
-        }
-      }
-      this.error = undefined;
-    } else if (error) {
-      this.error = error;
-      this.folders = undefined;
-    }
+  // New folder button
+  handleClick() {
+    this.showModal = true;
   }
 
-  get acceptedFormats() {
-    return [".pdf", ".png"];
+  // Close button for new folder
+  buttonClose() {
+    this.showModal = false;
   }
 
-  handleUploadFinished(event) {
-    const uploadedFiles = event.detail.files;
-    alert("Your file has been uploaded");
+  buttonSave() {
+    this.showModal = false;
+    this.saveModal = true;
+    console.log('BEFORE APEX CLASS', this.myRecordId);
+    submitNewFolder({folderName:this.newFolderName, parentFolder:this.myRecordId})
+    .then(result => {
+      this.newFolderId = result.Id;
+      this.newFolderParent = result.Zudoc_Parent_Folder__c;
+      console.log('New Folder Id', this.newFolderId);
+      console.log('NEW PARENT ID', this.newFolderParent);
+      setTimeout(() => {
+        this.saveModal = false;
+        const event = new ShowToastEvent({
+          title: "Success",
+          message: "Your new Zudoc Folder was successfully created",
+          variant: "success"
+        });
+        this.dispatchEvent(event);
+      }, 3000);
+      [...this.template
+        .querySelectorAll('lightning-input, lightning-textarea')]
+        .forEach((input) => { input.value = ''; });
+    })
   }
 
-  @track items = [];
-  @track allItems = [];
-  myRecordId = '';
-  myParentId = '';
-
-  get folderOptions() {
-    return this.items;
-  }
-
-  get parentOptions(){
-    return this.allItems;
-  }
-
-  handleChange(event) {
-    this.myRecordId = event.detail.value;
-  }
-
-  handleParent(event){
-    this.myParentId = event.detail.value;
-    console.log('THE PARENT', myParentId);
+  handleNameChange({ detail }) {
+    this.newFolderName = detail.value;
   }
 }

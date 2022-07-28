@@ -9,8 +9,8 @@
               icon-name="custom:custom13"
               size="large"
               alternative-text="Folder"
-              title="Folder"
-            ></lightning-icon>
+              title="Folder">
+            </lightning-icon>
           </div>
           <h2 class="slds-p-left_large slds-p-top_x-small slds-text-heading_large bold display-flex">
             ZuDocs
@@ -34,20 +34,11 @@
           >
             <template if:true={show}>
               <div class="slds-theme_default slds-box slds-p-bottom_medium">
-                <h2 class="big-text"></h2>
-                <h2 class="big-text">Upload Documents</h2>
-                <div class="slds-p-bottom_medium">
-                  <lightning-file-upload
-                    label=""
-                    name="fileUploader"
-                    accept={acceptedFormats}
-                    record-id={myRecordId}
-                    onuploadfinished={handleUploadFinished}
-                    multiple
-                  >
-                  </lightning-file-upload>
-                </div>
-                <h2 class="big-text slds-p-bottom_x-small">Files</h2>
+                <c-create-folder-menu
+                  my-record-id={myRecordId}
+                ></c-create-folder-menu>
+                <hr>
+                <h2 class="big-text slds-p-bottom_small">Files</h2>
                 <lightning-datatable
                   key-field="id"
                   columns={columns}
@@ -56,59 +47,25 @@
                   default-sort-direction={defaultSortDirection}
                   sorted-direction={sortDirection}
                   sorted-by={sortedBy}
-                  onsort={onHandleSort}
-                >
+                  onsort={onHandleSort}>
                 </lightning-datatable>
-                <div class="slds-p-top_large slds-p-bottom_medium">
-                  <h2 class="big-text slds-p-top_medium slds-p-bottom_medium">Create A New Folder</h2>
-                  <lightning-button class="medium-text" variant="brand-outline" label="Create New Folder" title="Primary action with lighter look"
-                    onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
+                <h2 class="big-text slds-p-top_large">Upload Documents</h2>
+                <div class="slds-p-bottom_small">
+                  <lightning-file-upload
+                    label=""
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    record-id={myRecordId}
+                    onuploadfinished={handleUploadFinished}
+                    multiple>
+                  </lightning-file-upload>
                 </div>
               </div>
             </template>
             <div class="slds-theme_default slds-box slds-p-top_medium">
-              <h2 class="big-text">Create Your Workspace</h2>
-              <div class="slds-p-around_medium" aria-hidden="false">
-                <lightning-input
-                  type="text"
-                  label="Enter Workspace Name"
-                  placeholder="Type here..."
-                  onchange={handleNameChange}
-                ></lightning-input>
-              </div>
-              <div class="slds-p-top_small slds-p-bottom_large">
-                <lightning-button
-                  class="medium-text"
-                  variant="brand-outline"
-                  label="Create Workspace"
-                  title="Primary action with lighter look"
-                  onclick={handleClick}
-                  icon-name="utility:new"
-                >
-                </lightning-button>
-              </div>
-              <div if:true={saveModal} class="example">
-                <lightning-spinner variant="brand" size="large" alternative-text="Loading..."> </lightning-spinner>
-              </div>
-              <c-work-space-modal
-                if:true={showModal}
-                workspace-name={workSpaceName}
-                onclose={buttonClose}
-                onsave={buttonSave}
-              >
-              </c-work-space-modal>
-              <h2 class="big-text">Link Your iManage Account</h2>
-              <div class="slds-p-top_medium">
-                <lightning-button
-                  class="medium-text"
-                  variant="brand-outline"
-                  label="iManage Website"
-                  title="Primary action with lighter look"
-                  onclick={handleNavigate}
-                  icon-name="utility:link"
-                >
-                </lightning-button>
-              </div>
+              <c-work-space-link></c-work-space-link>
+              <hr>
+              <c-imanage-link-menu></c-imanage-link-menu>
             </div>
           </lightning-layout-item>
         </lightning-layout>

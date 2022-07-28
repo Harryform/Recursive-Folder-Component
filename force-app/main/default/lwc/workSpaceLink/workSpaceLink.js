@@ -7,14 +7,17 @@ export default class WorkSpaceLink extends LightningElement {
   showModal = false;
   workSpaceName;
 
+  // Workspace button
   handleClick() {
     this.showModal = true;
   }
 
+  // Close button for Workspace
   buttonClose() {
     this.showModal = false;
   }
 
+  // Save button for Workspace
   buttonSave() {
     this.showModal = false;
     this.saveModal = true;
@@ -22,13 +25,17 @@ export default class WorkSpaceLink extends LightningElement {
       this.saveModal = false;
       const event = new ShowToastEvent({
         title: "Success",
-        message: "Workspace was successfully create",
+        message: "Workspace was successfully created",
         variant: "success"
       });
       this.dispatchEvent(event);
     }, 3000);
+    [...this.template
+      .querySelectorAll('lightning-input, lightning-textarea')]
+      .forEach((input) => { input.value = ''; });
   }
 
+  // Name change for Workspace
   handleNameChange({ detail }) {
     this.workSpaceName = detail.value;
   }
