@@ -1,8 +1,10 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 
-export default class WorkSpaceModal extends LightningElement {
-  @api
-  workspaceName;
+export default class CreateFolderModal extends LightningElement {
+  @api newFolderName;
+  @api myRecordId;
+  @track newFolderName;
+  @track parentFolder;
 
   get modalClasses() {
     const classes = ["slds-modal"];

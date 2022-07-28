@@ -13,4 +13,14 @@ public with sharing class FolderController {
     Map<Id, Zudoc_Folder__c> folderMap = new Map<Id, Zudoc_Folder__c>(folderList);
     return folderMap;
   }
+
+  @AuraEnabled
+  public static Zudoc_Folder__c submitNewFolder(String folderName, Id parentFolder){
+    Zudoc_Folder__c newFolder = new Zudoc_Folder__c();
+    newFolder.Name = folderName;
+    newFolder.Zudoc_Parent_Folder__c = parentFolder;
+
+    insert newFolder;
+    return newFolder;
+  }
 }

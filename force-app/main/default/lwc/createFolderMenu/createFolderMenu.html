@@ -1,40 +1,32 @@
 <template>
-  <h2 class="big-text">Create A New Folder</h2>
-  <div class="slds-p-top_medium">
-    <p>Select which folder you would like to add your newly created folder to.</p>
-    <div class="slds-p-bottom_medium">
-      <lightning-combobox
-        name="Folder Location"
-        label=""
-        value=""
-        placeholder="Choose a folder"
-        options={parentOptions}
-        onchange={handleParent} >
-      </lightning-combobox>
+  <div class="slds-p-bottom_medium">
+    <h2 class="big-text">Create A New Folder</h2>
+    <div class="slds-p-around_medium slds-p-bottom_large" aria-hidden="false">
+      <lightning-input
+        type="text"
+        label="Enter The Name Of Your New Folder"
+        placeholder="Type here..."
+        onchange={handleNameChange}>
+      </lightning-input>
     </div>
-    <div class="slds-p-bottom_medium">
-      <lightning-button class="medium-text" variant="brand-outline" label="Create New Folder" title="Primary action with lighter look" onclick={handleClick} icon-name="utility:open_folder"></lightning-button>
+    <div class="slds-p-top_small">
+      <lightning-button
+        class="medium-text"
+        variant="brand-outline"
+        label="Create New Folder"
+        title="Primary action with lighter look"
+        onclick={handleClick}
+        icon-name="utility:open_folder">
+      </lightning-button>
     </div>
-    <h2 class="big-text slds-p-bottom_x-small">Add Documents</h2>
-    <p>Use the dropdown menu below to select the folder you would like to add your files to.</p>
-    <div class="slds-p-bottom_medium">
-      <lightning-combobox
-        name="Folder Pick"
-        label=""
-        value=""
-        placeholder="Choose a folder"
-        options={folderOptions}
-        onchange={handleChange} >
-      </lightning-combobox>
+    <div if:true={saveModal} class="example">
+      <lightning-spinner variant="brand" size="large" alternative-text="Loading..."> </lightning-spinner>
     </div>
-    <lightning-file-upload
-      label="Upload Documents"
-      name="fileUploader"
-      accept={acceptedFormats}
-      record-id={myRecordId}
-      onuploadfinished={handleUploadFinished}
-      multiple
-    >
-    </lightning-file-upload>
+    <c-create-folder-modal
+      if:true={showModal}
+      new-folder-name={newFolderName}
+      onclose={buttonClose}
+      onsave={buttonSave}>
+    </c-create-folder-modal>
   </div>
 </template>

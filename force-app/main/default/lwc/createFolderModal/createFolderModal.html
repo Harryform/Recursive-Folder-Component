@@ -1,5 +1,4 @@
 <template>
-  <!-- Create Modal -->
   <section
     role="dialog"
     tabindex="-1"
@@ -24,7 +23,7 @@
 
       <div class="slds-modal__header">
         <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
-          Please Confirm The Name Of Your Workspace
+          Please Confirm The Name Of Your Folder
         </h1>
       </div>
 
@@ -32,7 +31,7 @@
         class="slds-modal__content slds-p-around_medium"
         id="modal-content-id-1"
       >
-        <p>{workspaceName}</p>
+        <p>{newFolderName}</p>
       </div>
 
       <div class="slds-modal__footer modalButtons">
@@ -58,7 +57,5 @@
       </div>
     </div>
   </section>
-  <!-- End Modal -->
-
   <div class={backdropClasses} role="presentation"></div>
 </template>

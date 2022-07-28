@@ -1,10 +1,8 @@
 import { LightningElement, wire, track } from 'lwc';
 import getFolderRecords from '@salesforce/apex/FolderController.getFolderRecords';
 import getFileRecords from '@salesforce/apex/FileController.getFileRecords';
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { NavigationMixin } from "lightning/navigation";
 
-export default class FolderView extends NavigationMixin(LightningElement) {
+export default class FolderView extends LightningElement {
 
   folders;
   name;
@@ -38,12 +36,12 @@ export default class FolderView extends NavigationMixin(LightningElement) {
 
   @track folderObject = '';
   @track root = '';
+  @track myRecordId;
 
   // Recursive function to fill list of Items for lightning tree with Zudoc Folders
   folderRecursion(current) {
     let children = '';
     let child = '';
-    let parent = '';
     let childId = '';
 
     if(current.Id == undefined){
@@ -79,20 +77,14 @@ export default class FolderView extends NavigationMixin(LightningElement) {
     let folderId = '';
     let newObjectList = [];
     fileStats = this.fileStats;
-    console.log('FILE STATS', JSON.parse(JSON.stringify(fileStats)));
     for(object in fileStats){
       object = fileStats[object];
-      console.log('OBJECT', JSON.parse(JSON.stringify(object)));
       recordId = this.myRecordId;
       folderId = object.id;
-      console.log('FOLDER IDS', folderId);
       if(folderId === recordId){
-        console.log('FOLDER IDS', folderId);
         newObjectList.push(object);
-        console.log('NEW LIST', JSON.parse(JSON.stringify(newObjectList)));
       }
     }
-    console.log('NEW LIST', JSON.parse(JSON.stringify(newObjectList)));
     this.newObjectList = newObjectList;
     return newObjectList;
   }
@@ -102,7 +94,6 @@ export default class FolderView extends NavigationMixin(LightningElement) {
   // Gives Id of selected Zudoc Folder in lightning tree
   handleSelect(event){
     let targetName = event.detail.name;
-    console.log('CHOSEN', targetName);
     this.show = false;
     this.show = true;
     this.myRecordId = targetName;
@@ -125,7 +116,6 @@ export default class FolderView extends NavigationMixin(LightningElement) {
       let fileObject = '';
       let fileIcon = '';
       let fileStats = [];
-      console.log('DATA', JSON.parse(JSON.stringify(this.files)));
       for(fileObject in data){
         oneFile = data[fileObject].ContentDocument;
         fileName = oneFile.Title;
@@ -152,7 +142,6 @@ export default class FolderView extends NavigationMixin(LightningElement) {
               trendIcon: fileIcon,
             }
           );
-          console.log('ONE FILE', fileStats);
         }
       }
       this.fileStats = fileStats;
@@ -165,6 +154,8 @@ export default class FolderView extends NavigationMixin(LightningElement) {
 
   @track fileStats = [];
 
+  newFolderName;
+
   // Accepted formats for files being uploaded
   get acceptedFormats() {
     return [".pdf", ".png"];
@@ -174,54 +165,6 @@ export default class FolderView extends NavigationMixin(LightningElement) {
   handleUploadFinished(event) {
     const uploadedFiles = event.detail.files;
     alert("Your file has been uploaded");
-  }
-
-  saveModal = false;
-  showModal = false;
-  workSpaceName;
-
-  // Workspace button
-  handleClick() {
-    this.showModal = true;
-  }
-
-  // Close button for Workspace
-  buttonClose() {
-    this.showModal = false;
-  }
-
-  // Save button for Workspace
-  buttonSave() {
-    this.showModal = false;
-    this.saveModal = true;
-    setTimeout(() => {
-      this.saveModal = false;
-      const event = new ShowToastEvent({
-        title: "Success",
-        message: "Workspace was successfully create",
-        variant: "success"
-      });
-      this.dispatchEvent(event);
-    }, 3000);
-    [...this.template
-      .querySelectorAll('lightning-input, lightning-textarea')]
-      .forEach((input) => { input.value = ''; });
-  }
-
-  // Name change for Workspace
-  handleNameChange({ detail }) {
-    this.workSpaceName = detail.value;
-  }
-
-  // Navigation for iManage link button
-  handleNavigate() {
-    const config = {
-      type: "standard__webPage",
-      attributes: {
-        url: "https://imanage.com/"
-      }
-    };
-    this[NavigationMixin.Navigate](config);
   }
 
   // Layout for columns in Files data table
